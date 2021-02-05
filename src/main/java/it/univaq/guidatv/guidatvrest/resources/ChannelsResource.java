@@ -5,6 +5,7 @@
  */
 package it.univaq.guidatv.guidatvrest.resources;
 
+import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,10 +83,12 @@ public class ChannelsResource {
 
     @Path("{id: [0-9]+}/schedule")
     public ChannelResource getItem(
-            @PathParam("id") int id
+            @PathParam("id") Integer id
             ) {
-        return new ChannelResource(id);
-
-        //throw new RESTWebApplicationException(404, "Fattura non trovata");
+        if(id>0){
+            return new ChannelResource(id);
+        }else{
+            throw new RESTWebApplicationException(404, "Fattura non trovata"); 
+        }
     }
 }

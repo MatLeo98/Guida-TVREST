@@ -1,0 +1,17 @@
+it\univaq\guidatv\guidatvrest\model\FavouriteChannel.class
+it\univaq\guidatv\guidatvrest\model\Channel.class
+it\univaq\guidatv\guidatvrest\model\Program.class
+it\univaq\framework\data\DataItem.class
+it\univaq\guidatv\guidatvrest\RESTWebApplicationException.class
+it\univaq\guidatv\guidatvrest\model\Image.class
+it\univaq\guidatv\guidatvrest\model\Schedule$TimeSlot.class
+it\univaq\guidatv\guidatvrest\resources\ChannelResource.class
+it\univaq\guidatv\guidatvrest\model\FavouriteProgram.class
+it\univaq\guidatv\guidatvrest\model\SavedSearches.class
+it\univaq\guidatv\guidatvrest\model\User.class
+it\univaq\guidatv\guidatvrest\resources\ChannelsResource.class
+it\univaq\guidatv\guidatvrest\RESTApp.class
+it\univaq\framework\data\DataItemImpl.class
+it\univaq\guidatv\guidatvrest\model\Episode.class
+it\univaq\guidatv\guidatvrest\model\Program$Genre.class
+it\univaq\guidatv\guidatvrest\model\Schedule.class
