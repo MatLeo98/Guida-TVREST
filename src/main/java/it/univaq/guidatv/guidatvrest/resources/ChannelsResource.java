@@ -53,8 +53,8 @@ public class ChannelsResource {
             e.put("id", i);
             e.put("nome", "RAI 1");
             //chiedere se è un problema la data con i trattini
-            LocalDate date = LocalDate.now();
-            String year = String.valueOf(date.getYear());
+            String date = String.valueOf(LocalDate.now());
+            /*String year = String.valueOf(date.getYear());
             String month = null;
             String day = null;
             if (date.getMonthValue() < 10) {
@@ -67,10 +67,11 @@ public class ChannelsResource {
             } else {
                 day = String.valueOf(date.getDayOfMonth());
             }
-            String d = year + month + day;
-            URI uri = uriinfo.getBaseUriBuilder()
-                    .path("schedule")
-                    .path(d)
+            String d = year + month + day;*/
+            URI uri;
+            uri = uriinfo.getBaseUriBuilder()
+                    .path(ScheduleResource.class)
+                    .path(date)
                     .path(String.valueOf(i))
                     //.path(getClass(), "getItem")
                     .build();
