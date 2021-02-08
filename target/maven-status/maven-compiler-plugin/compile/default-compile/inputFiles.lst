@@ -7,6 +7,7 @@ S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guid
 S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guidatvrest\model\FavouriteChannel.java
 S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\framework\data\DataItemImpl.java
 S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guidatvrest\model\Schedule.java
+S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guidatvrest\resources\SchedulesResource.java
 S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guidatvrest\model\Episode.java
 S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guidatvrest\model\Program.java
 S:\Programmi\xampp\htdocs\REST\Guida-TVREST\src\main\java\it\univaq\guidatv\guidatvrest\resources\ChannelResource.java

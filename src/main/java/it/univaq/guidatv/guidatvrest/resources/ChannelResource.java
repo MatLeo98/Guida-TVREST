@@ -45,9 +45,9 @@ public class ChannelResource {
         }
     }
     
-    /*@Path("palinsesto")
-    public PalinsestoRes getPalinsesto(){
-        return new PalinsestoRes();
-    } */
+    /*@Path("schedule")
+    public ScheduleResource getSchedule(){
+        return new ScheduleResource();
+    }*/ 
     
 }
