@@ -43,48 +43,48 @@ public class ScheduleResource {
             @QueryParam("date2") String date2,
             @QueryParam("from") Integer from,
             @QueryParam("to") Integer to) {
-        
+
         int cont = 0;
 
-        if(title == null){
+        if (title == null) {
             title = "";
-            cont ++;
+            cont++;
         }
-        
-        if(genre == null){
+
+        if (genre == null) {
             genre = "";
-            cont ++;
+            cont++;
         }
-        
-        if(channel == null){
+
+        if (channel == null) {
             channel = "";
-            cont ++;
+            cont++;
         }
-        
-        if(min == null){
+
+        if (min == null) {
             min = "00:00";
-            cont ++;
+            cont++;
         }
-        
-        if(max == null){
+
+        if (max == null) {
             max = "23:59";
-            cont ++;
+            cont++;
         }
-        
-        if(date1 == null){
+
+        if (date1 == null) {
             LocalDate d = LocalDate.now().minusMonths(1);
             String d1 = d.toString();
             date1 = d1;
-            cont ++;
+            cont++;
         }
-        
-        if(date2 == null){
+
+        if (date2 == null) {
             LocalDate d = LocalDate.now().plusDays(3);
             String d2 = d.toString();
             date2 = d2;
-            cont ++;
+            cont++;
         }
-        
+
         if (from == null) {
             from = 1;
         }
@@ -96,11 +96,11 @@ public class ScheduleResource {
             from = to;
             to = swap;
         }
-        
-        if(cont == 7){
-           throw new RESTWebApplicationException(400, "Non è stato inserito alcun filtro per la ricerca"); 
+
+        if (cont == 7) {
+            throw new RESTWebApplicationException(400, "Non è stato inserito alcun filtro per la ricerca");
         }
-        
+
         List<Map<String, Object>> l = new ArrayList();
         for (int i = from; i <= to; ++i) {
             Map<String, Object> e = new HashMap<>();
@@ -113,11 +113,9 @@ public class ScheduleResource {
             e.put("program", "TG1");
 
             //AGGIUNGERE IF PER SERIE TV
-            
-            
             URI uri = uriinfo.getBaseUriBuilder()
-                    .path(ChannelsResource.class)
-                    .path(ChannelsResource.class, "getItem")
+                    .path(ProgramsResource.class)
+                    .path(ProgramsResource.class, "getItem")
                     //.path(getClass(), "getItem")
                     .build(1);
             e.put("url", uri.toString());
@@ -126,24 +124,55 @@ public class ScheduleResource {
 
         return l;
     }
-    
+
     @GET
     @Produces("application/json")
     @Path("{date: [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]}")
-    public Response getScheduleByData(
+    public Response getScheduleByDate(
             @Context UriInfo uriinfo,
-            @PathParam("date") int date){
-    
-        List<String> l = new ArrayList();
-        for (int i = 1; i <= 3; ++i) {
-            URI uri = uriinfo.getBaseUriBuilder()
-                    .path(ChannelsResource.class)
-                    .path(ChannelsResource.class, "getItem")
-                    .build(i);
-            l.add(uri.toString());
-        }
+            @PathParam("date") String date) {
 
-        return Response.ok(l).build();
+        if (date != null && date != ""){
+            List<String> l = new ArrayList();
+            for (int i = 1; i <= 3; ++i) {
+                URI uri = uriinfo.getBaseUriBuilder()
+                        .path(ProgramsResource.class)
+                        .path(ProgramsResource.class, "getItem")
+                        .build(i);
+                l.add(uri.toString());
+            }
+
+            return Response.ok(l).build();
+        }else{
+             throw new RESTWebApplicationException(404, "Not Found");
+        }
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("{date: [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]}/{channel: [0-9]+}")
+    public Response getScheduleByDateAndChannel(
+            @Context UriInfo uriinfo,
+            @PathParam("date") String date,
+            @PathParam("channel") Integer channelId) {
+
+        if (date != null && date != "" && channelId != null && channelId > 0) {
+
+            //PALINSESTI BY CANALE E DATA
+            List<String> l = new ArrayList();
+            for (int i = 1; i <= 3; ++i) {
+                URI uri = uriinfo.getBaseUriBuilder()
+                        .path(ProgramsResource.class)
+                        .path(ProgramsResource.class, "getItem")
+                        .build(i);
+                l.add(uri.toString());
+            }
+
+            return Response.ok(l).build();
+
+        } else {
+            throw new RESTWebApplicationException(404, "404 - Not Found");
+        }
     }
 
 }

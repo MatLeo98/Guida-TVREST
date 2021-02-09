@@ -8,6 +8,7 @@ package it.univaq.guidatv.guidatvrest;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import it.univaq.guidatv.guidatvrest.jackson.ObjectMapperContextResolver;
 import it.univaq.guidatv.guidatvrest.resources.ChannelsResource;
+import it.univaq.guidatv.guidatvrest.resources.ProgramsResource;
 import it.univaq.guidatv.guidatvrest.resources.ScheduleResource;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ public class RESTApp extends Application{
         //aggiungiamo tutte le *root resurces* (cioè quelle
         //con l'annotazione Path) che vogliamo pubblicare
         c.add(ChannelsResource.class);
+        c.add(ProgramsResource.class);
         c.add(ScheduleResource.class);
         
         //aggiungiamo il provider Jackson per poter

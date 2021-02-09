@@ -1,4 +1,5 @@
 it\univaq\guidatv\guidatvrest\jackson\JavaCalendarDeserializer.class
+it\univaq\guidatv\guidatvrest\resources\ProgramsResource.class
 it\univaq\guidatv\guidatvrest\model\FavouriteChannel.class
 it\univaq\guidatv\guidatvrest\jackson\ObjectMapperContextResolver.class
 it\univaq\guidatv\guidatvrest\model\Channel.class
@@ -8,6 +9,7 @@ it\univaq\guidatv\guidatvrest\RESTWebApplicationException.class
 it\univaq\guidatv\guidatvrest\jackson\JavaCalendarSerializer.class
 it\univaq\guidatv\guidatvrest\model\Image.class
 it\univaq\guidatv\guidatvrest\model\Schedule$TimeSlot.class
+it\univaq\guidatv\guidatvrest\resources\ProgramResource.class
 it\univaq\guidatv\guidatvrest\resources\ChannelResource.class
 it\univaq\guidatv\guidatvrest\model\FavouriteProgram.class
 it\univaq\guidatv\guidatvrest\model\SavedSearches.class
