@@ -10,6 +10,8 @@ import it.univaq.guidatv.guidatvrest.jackson.ObjectMapperContextResolver;
 import it.univaq.guidatv.guidatvrest.resources.ChannelsResource;
 import it.univaq.guidatv.guidatvrest.resources.ProgramsResource;
 import it.univaq.guidatv.guidatvrest.resources.ScheduleResource;
+import it.univaq.guidatv.guidatvrest.security.AuthenticationResource;
+import it.univaq.guidatv.guidatvrest.security.LoggedFilter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +34,7 @@ public class RESTApp extends Application{
         c.add(ChannelsResource.class);
         c.add(ProgramsResource.class);
         c.add(ScheduleResource.class);
-        
+        c.add(AuthenticationResource.class);
         //aggiungiamo il provider Jackson per poter
         //usare i suoi servizi di serializzazione e 
         //deserializzazione JSON
@@ -41,7 +43,7 @@ public class RESTApp extends Application{
         //necessario se vogliamo una (de)serializzazione custom di qualche classe    
         c.add(ObjectMapperContextResolver.class);
         //esempio di autoenticazione
-        //c.add(LoggedFilter.class);
+        c.add(LoggedFilter.class);
         classes = Collections.unmodifiableSet(c);
     }
 

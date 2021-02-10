@@ -150,7 +150,7 @@ public class ScheduleResource {
 
     @GET
     @Produces("application/json")
-    @Path("{date: [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]}/{channel: [0-9]+}")
+    @Path("{date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]}/{channel: [0-9]+}")
     public Response getScheduleByDateAndChannel(
             @Context UriInfo uriinfo,
             @PathParam("date") String date,

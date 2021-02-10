@@ -6,6 +6,7 @@
 package it.univaq.guidatv.guidatvrest.resources;
 
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
+import it.univaq.guidatv.guidatvrest.security.Logged;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
