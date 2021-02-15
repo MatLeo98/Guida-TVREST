@@ -15,13 +15,15 @@ public class ProgramSerializer extends JsonSerializer<Program> {
             throws IOException, JsonProcessingException {
 
         jgen.writeStartObject(); 
-            jgen.writeNumberField("key", item.getKey()); // "numero": 1
             jgen.writeStringField("name", item.getName()); // "data": "4/5/2020"
             jgen.writeStringField("description", item.getDescription());
             jgen.writeObjectField("genre", item.getGenre());
             jgen.writeStringField("link", item.getLink());
-            jgen.writeBooleanField("serie", item.isSerie());
-            jgen.writeNumberField("seasonsNumber", item.getSeasonsNumber());
+            if(item.isSerie())
+                jgen.writeStringField("serie", "Si");
+            else
+                jgen.writeStringField("serie", "No");
+            jgen.writeNumberField("seasons number", item.getSeasonsNumber());
             jgen.writeObjectField("image", item.getImage());
             jgen.writeObjectField("episodes", item.getEpisodes());
         jgen.writeEndObject(); 

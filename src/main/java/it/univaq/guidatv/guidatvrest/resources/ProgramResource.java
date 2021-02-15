@@ -47,6 +47,14 @@ public class ProgramResource {
         e.setSeasonNumber(2);
         e.setNumber(1);
         p.getEpisodes().add(e);
+        Episode e2 = new Episode();
+        e2.setName("Episodio 2");
+        e2.setSeasonNumber(2);
+        e2.setNumber(2);
+        p.getEpisodes().add(e2);
+        
+        
+        
         
     }
     

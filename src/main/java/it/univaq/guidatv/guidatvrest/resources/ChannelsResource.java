@@ -51,8 +51,8 @@ public class ChannelsResource {
         List<Map<String, Object>> l = new ArrayList();
         for (int i = from; i <= to; ++i) {
             Map<String, Object> e = new HashMap<>();
-            e.put("id", i);
-            e.put("nome", "RAI 1");
+            e.put("number", i);
+            e.put("name", "RAI 1");
             //chiedere se è un problema la data con i trattini
             String date = String.valueOf(LocalDate.now());
             /*String year = String.valueOf(date.getYear());
@@ -76,7 +76,7 @@ public class ChannelsResource {
                     .path(String.valueOf(i))
                     //.path(getClass(), "getItem")
                     .build();
-            e.put("url", uri.toString());
+            e.put("palinsesto", uri.toString());
             l.add(e);
         }
 
