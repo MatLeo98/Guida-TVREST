@@ -5,6 +5,8 @@ it\univaq\guidatv\guidatvrest\model\Channel.class
 it\univaq\guidatv\guidatvrest\model\Program.class
 it\univaq\guidatv\guidatvrest\RESTWebApplicationException.class
 it\univaq\guidatv\guidatvrest\model\Image.class
+it\univaq\guidatv\guidatvrest\model\Schedule$TimeSlot.class
+it\univaq\guidatv\guidatvrest\resources\EpisodesResource.class
 it\univaq\guidatv\guidatvrest\resources\ProgramResource.class
 it\univaq\guidatv\guidatvrest\resources\ChannelResource.class
 it\univaq\guidatv\guidatvrest\security\Logged.class

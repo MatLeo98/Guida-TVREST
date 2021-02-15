@@ -7,10 +7,13 @@ package it.univaq.guidatv.guidatvrest.resources;
 
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import it.univaq.guidatv.guidatvrest.model.Channel;
+import java.time.LocalDate;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 /**
  *
@@ -45,9 +48,13 @@ public class ChannelResource {
         }
     }
     
-    /*@Path("schedule")
-    public ScheduleResource getSchedule(){
-        return new ScheduleResource();
-    }*/ 
+    /*@Path("schedule") RICHIAMARE API schedule/dataoggi/canale
+    public ScheduleResource getSchedule(@Context UriInfo uriinfo){
+        String date = String.valueOf(LocalDate.now());
+        return new ScheduleResource(uriinfo.getBaseUriBuilder()
+                    .path(ScheduleResource.class)
+                    .path(ScheduleResource.class, "getScheduleByDateAndChannel")
+                    .build(date,1));
+    }*/
     
 }

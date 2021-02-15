@@ -25,6 +25,8 @@ public class Episode extends DataItemImpl<Integer> {
         seasonNumber = 0;
         number = 0;
         
+        program = null;
+        
     }
 
     public String getName() {

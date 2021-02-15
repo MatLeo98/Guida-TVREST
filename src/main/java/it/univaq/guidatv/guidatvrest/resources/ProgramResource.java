@@ -10,6 +10,7 @@ import it.univaq.guidatv.guidatvrest.model.Episode;
 import it.univaq.guidatv.guidatvrest.model.Image;
 import it.univaq.guidatv.guidatvrest.model.Program;
 import it.univaq.guidatv.guidatvrest.model.Program.Genre;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -31,20 +32,21 @@ public class ProgramResource {
         p.setDescription("Telegiornale Nazionale");
         p.setGenre(Genre.valueOf("informazione"));
         p.setLink("http://www.tg1.rai.it/");
-        p.setIsSerie(false);
+        p.setIsSerie(true);
         p.setSeasonsNumber(0);
+        
         
         Image i = new Image();
         i.setLink("https://upload.wikimedia.org/wikipedia/commons/f/fa/Rai_1_-_Logo_2016.svg");
         p.setImage(i);
         
-        /*PER LE SERIE, ESEMPIO INSERIMENTO EPISODIO
+        /*PER LE SERIE, ESEMPIO INSERIMENTO EPISODIO*/
         
         Episode e = new Episode();
         e.setName("La Vendetta");
         e.setSeasonNumber(2);
         e.setNumber(1);
-        p.getEpisodes().add(e);*/
+        p.getEpisodes().add(e);
         
     }
     
@@ -80,11 +82,11 @@ public class ProgramResource {
     @GET
     @Produces("application/json")
     public Response getEpisodes() {
-        if(p.IsSerie()){
+        if(p.isSerie()){
             List<Episode> episodes = p.getEpisodes();
             return Response.ok(episodes).build();
         }else{
-            throw new RESTWebApplicationException(400, "Bad Request");
+            throw new RESTWebApplicationException(400, "Il programma non è una serie");
         }
     }
     

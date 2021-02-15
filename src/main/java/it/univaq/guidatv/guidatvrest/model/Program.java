@@ -6,6 +6,7 @@
 package it.univaq.guidatv.guidatvrest.model;
 
 import it.univaq.framework.data.DataItemImpl;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public class Program extends DataItemImpl<Integer> {
         isSerie = false;
         seasonsNumber = 0;
 
-        episodes = null;
+        episodes = new ArrayList<>();
     }
 
     public String getName() {
@@ -83,7 +84,7 @@ public class Program extends DataItemImpl<Integer> {
         this.image = image;
     }
 
-    public Boolean IsSerie() {
+    public Boolean isSerie() {
         return isSerie;
     }
 
