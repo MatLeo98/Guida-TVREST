@@ -8,12 +8,14 @@ package it.univaq.guidatv.guidatvrest.resources;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import it.univaq.guidatv.guidatvrest.model.Channel;
 import it.univaq.guidatv.guidatvrest.model.Image;
+import it.univaq.guidatv.guidatvrest.model.Schedule;
 import java.net.URI;
 import java.time.LocalDate;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -57,27 +59,25 @@ public class ChannelResource {
 
     @GET
     @Produces("application/json")
-    @Path("schedule") //RICHIAMARE API schedule/dataoggi/canale
-    public Response getSchedule(@Context UriInfo uriinfo) {
+    @Path("schedule") //RICHIAMA API schedule/dataoggi/canale
+    public Response getSchedule(@Context UriInfo uriinfo,@Context ResourceContext resourceContext) {
+        
         String date = String.valueOf(LocalDate.now());
+        ScheduleResource s = resourceContext.getResource(ScheduleResource.class);
+        Response r = s.getScheduleByDateAndChannel(uriinfo, date, c.getKey());
 
-        URI uri = uriinfo.getBaseUriBuilder()
-                .path(ScheduleResource.class)
-                .path(ScheduleResource.class, "getScheduleByDateAndChannel")
-                .build(date, c.getKey());
-        return Response.ok(uri).build();
+        return r;
     }
 
     @GET
     @Produces("application/json")
-    @Path("schedule/{date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]}") //RICHIAMARE API schedule/data/canale
-    public Response getScheduleByDate(@Context UriInfo uriinfo, @PathParam("date") String date) {
+    @Path("schedule/{date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]}") //RICHIAMA API schedule/data/canale
+    public Response getScheduleByDate(@Context UriInfo uriinfo, @Context ResourceContext resourceContext, @PathParam("date") String date) {
 
-        URI uri = uriinfo.getBaseUriBuilder()
-                .path(ScheduleResource.class)
-                .path(ScheduleResource.class, "getScheduleByDateAndChannel")
-                .build(date, c.getKey());
-        return Response.ok(uri).build();
+        ScheduleResource s = resourceContext.getResource(ScheduleResource.class);
+        Response r = s.getScheduleByDateAndChannel(uriinfo, date, c.getKey());
+
+        return r;
     }
 
 }
