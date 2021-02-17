@@ -5,11 +5,14 @@
  */
 package it.univaq.guidatv.guidatvrest.resources;
 
+import it.univaq.guidatv.data.impl.EpisodeImpl;
+import it.univaq.guidatv.data.impl.ImageImpl;
+import it.univaq.guidatv.data.impl.ProgramImpl;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
-import it.univaq.guidatv.guidatvrest.model.Episode;
-import it.univaq.guidatv.guidatvrest.model.Image;
-import it.univaq.guidatv.guidatvrest.model.Program;
-import it.univaq.guidatv.guidatvrest.model.Program.Genre;
+import it.univaq.guidatv.data.model.Episode;
+import it.univaq.guidatv.data.model.Image;
+import it.univaq.guidatv.data.model.Program;
+import it.univaq.guidatv.data.impl.ProgramImpl.Genre;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -26,28 +29,28 @@ public class ProgramResource {
     private final Program p;
     
     ProgramResource(Integer id){
-        p = new Program();
+        p = new ProgramImpl();
         p.setKey(id);
         p.setName("TG1"); 
         p.setDescription("Telegiornale Nazionale");
         p.setGenre(Genre.valueOf("informazione"));
         p.setLink("http://www.tg1.rai.it/");
-        p.setIsSerie(true);
+        p.setisSerie(true);
         p.setSeasonsNumber(0);
         
         
-        Image i = new Image();
+        Image i = new ImageImpl();
         i.setLink("https://upload.wikimedia.org/wikipedia/commons/f/fa/Rai_1_-_Logo_2016.svg");
         p.setImage(i);
         
         /*PER LE SERIE, ESEMPIO INSERIMENTO EPISODIO*/
         
-        Episode e = new Episode();
+        Episode e = new EpisodeImpl();
         e.setName("La Vendetta");
         e.setSeasonNumber(2);
         e.setNumber(1);
         p.getEpisodes().add(e);
-        Episode e2 = new Episode();
+        Episode e2 = new EpisodeImpl();
         e2.setName("Episodio 2");
         e2.setSeasonNumber(2);
         e2.setNumber(2);

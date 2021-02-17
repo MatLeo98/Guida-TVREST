@@ -5,7 +5,7 @@
  */
 package it.univaq.guidatv.guidatvrest.resources;
 
-import it.univaq.guidatv.guidatvrest.model.Program;
+import it.univaq.guidatv.data.model.Program;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;

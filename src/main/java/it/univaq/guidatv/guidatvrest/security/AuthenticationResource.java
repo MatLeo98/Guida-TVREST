@@ -1,7 +1,7 @@
 package it.univaq.guidatv.guidatvrest.security;
 
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
-import it.univaq.guidatv.guidatvrest.model.Program.Genre;
+import it.univaq.guidatv.data.impl.ProgramImpl.Genre;
 import it.univaq.guidatv.guidatvrest.resources.ProgramsResource;
 import it.univaq.guidatv.guidatvrest.resources.ScheduleResource;
 import java.net.URI;

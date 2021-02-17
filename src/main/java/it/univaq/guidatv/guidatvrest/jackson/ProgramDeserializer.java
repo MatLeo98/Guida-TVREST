@@ -7,10 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import it.univaq.guidatv.guidatvrest.model.Episode;
-import it.univaq.guidatv.guidatvrest.model.Image;
-import it.univaq.guidatv.guidatvrest.model.Program;
-import it.univaq.guidatv.guidatvrest.model.Program.Genre;
+import it.univaq.guidatv.data.impl.ProgramImpl;
+import it.univaq.guidatv.data.model.Episode;
+import it.univaq.guidatv.data.model.Image;
+import it.univaq.guidatv.data.model.Program;
+import it.univaq.guidatv.data.impl.ProgramImpl.Genre;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,7 +21,7 @@ public class ProgramDeserializer extends JsonDeserializer<Program> {
     @Override
     public Program deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
-        Program p = new Program();
+        Program p = new ProgramImpl();
 
         JsonNode node = jp.getCodec().readTree(jp);
 
@@ -44,7 +45,7 @@ public class ProgramDeserializer extends JsonDeserializer<Program> {
         }
 
         if (node.has("serie")) {
-            p.setIsSerie(node.get("serie").asBoolean());
+            p.setisSerie(node.get("serie").asBoolean());
         }
 
         if (node.has("seasonsNumber")) {

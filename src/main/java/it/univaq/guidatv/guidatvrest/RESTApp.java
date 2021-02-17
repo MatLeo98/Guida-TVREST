@@ -6,6 +6,7 @@
 package it.univaq.guidatv.guidatvrest;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import it.univaq.guidatv.data.dao.GuidatvDataLayer;
 import it.univaq.guidatv.guidatvrest.jackson.ObjectMapperContextResolver;
 import it.univaq.guidatv.guidatvrest.resources.ChannelsResource;
 import it.univaq.guidatv.guidatvrest.resources.ProgramsResource;
@@ -15,6 +16,8 @@ import it.univaq.guidatv.guidatvrest.security.LoggedFilter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 

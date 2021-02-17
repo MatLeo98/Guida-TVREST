@@ -7,7 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import it.univaq.guidatv.guidatvrest.model.Channel;
+import it.univaq.guidatv.data.impl.ChannelImpl;
+import it.univaq.guidatv.data.model.Channel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,7 +18,7 @@ public class ChannelDeserializer extends JsonDeserializer<Channel> {
     @Override
     public Channel deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
-        Channel c = new Channel();
+        Channel c = new ChannelImpl();
 
         JsonNode node = jp.getCodec().readTree(jp);
 

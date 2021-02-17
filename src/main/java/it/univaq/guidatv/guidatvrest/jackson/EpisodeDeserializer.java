@@ -7,7 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import it.univaq.guidatv.guidatvrest.model.Episode;
+import it.univaq.guidatv.data.impl.EpisodeImpl;
+import it.univaq.guidatv.data.model.Episode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,7 +18,7 @@ public class EpisodeDeserializer extends JsonDeserializer<Episode> {
     @Override
     public Episode deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
-        Episode e = new Episode();
+        Episode e = new EpisodeImpl();
 
         JsonNode node = jp.getCodec().readTree(jp);
 

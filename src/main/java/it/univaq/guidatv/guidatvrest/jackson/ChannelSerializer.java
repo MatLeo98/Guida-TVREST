@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import it.univaq.guidatv.guidatvrest.model.Channel;
+import it.univaq.guidatv.data.model.Channel;
 
 public class ChannelSerializer extends JsonSerializer<Channel> {
 

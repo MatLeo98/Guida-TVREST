@@ -5,11 +5,11 @@
  */
 package it.univaq.guidatv.guidatvrest.resources;
 
+import it.univaq.guidatv.data.impl.ChannelImpl;
+import it.univaq.guidatv.data.impl.ImageImpl;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
-import it.univaq.guidatv.guidatvrest.model.Channel;
-import it.univaq.guidatv.guidatvrest.model.Image;
-import it.univaq.guidatv.guidatvrest.model.Schedule;
-import java.net.URI;
+import it.univaq.guidatv.data.model.Channel;
+import it.univaq.guidatv.data.model.Image;
 import java.time.LocalDate;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -29,11 +29,11 @@ public class ChannelResource {
     private final Channel c;
 
     ChannelResource(Integer id) {
-        c = new Channel();
+        c = new ChannelImpl();
         c.setKey(id);
         c.setName("RAI 1");
 
-        Image i = new Image();
+        Image i = new ImageImpl();
         i.setLink("https://upload.wikimedia.org/wikipedia/commons/f/fa/Rai_1_-_Logo_2016.svg");
         c.setImage(i);
     }
