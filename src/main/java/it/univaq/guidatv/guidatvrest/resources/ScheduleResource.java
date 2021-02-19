@@ -5,15 +5,21 @@
  */
 package it.univaq.guidatv.guidatvrest.resources;
 
+import it.univaq.framework.data.DataException;
+import it.univaq.guidatv.data.dao.GuidatvDataLayer;
+import it.univaq.guidatv.data.model.Schedule;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,11 +34,12 @@ import javax.ws.rs.core.UriInfo;
  * @author giorg
  */
 @Path("schedule")
-public class ScheduleResource {
+public class ScheduleResource extends BaseResource{
 
     @GET
     @Produces("application/json")
     public List<Map<String, Object>> getCollection(
+            @Context HttpServletRequest request,
             @Context UriInfo uriinfo,
             @QueryParam("title") String title,
             @QueryParam("genre") String genre,
@@ -44,84 +51,96 @@ public class ScheduleResource {
             @QueryParam("from") Integer from,
             @QueryParam("to") Integer to) {
 
-        int cont = 0;
-
-        if (title == null) {
-            title = "";
-            cont++;
+        
+            int cont = 0;
+            
+            if (title == null) {
+                title = "";
+                cont++;
+            }
+            
+            if (genre == null) {
+                genre = "";
+                cont++;
+            }
+            
+            if (channel == null) {
+                channel = "";
+                cont++;
+            }
+            
+            if (min == null) {
+                min = "00:00";
+                cont++;
+            }
+            
+            if (max == null) {
+                max = "23:59";
+                cont++;
+            }
+            
+            if (date1 == null) {
+                LocalDate d = LocalDate.now().minusMonths(1);
+                String d1 = d.toString();
+                date1 = d1;
+                cont++;
+            }
+            
+            if (date2 == null) {
+                LocalDate d = LocalDate.now().plusDays(3);
+                String d2 = d.toString();
+                date2 = d2;
+                cont++;
+            }
+            
+            if (from == null) {
+                from = 0;
+            }
+            if (to == null) {
+                to = 7; //per esempio
+            }
+            if (from > to) { //per sicurezza
+                int swap = from;
+                from = to;
+                to = swap;
+            }
+            
+            if (cont == 7) {
+                throw new RESTWebApplicationException(400, "Non è stato inserito alcun filtro per la ricerca");
+            }
+            
+            List<Map<String, Object>> l = new ArrayList();
+            try {
+                DBConnection(request);
+                List<Schedule> schedules = ((GuidatvDataLayer)request.getAttribute("datalayer")).getScheduleDAO().search(title, genre, channel, min, max, date1, date2);
+                for (int i = from; i < schedules.size(); ++i) {
+                    Map<String, Object> e = new HashMap<>();
+                    e.put("date", schedules.get(i).getDate());
+                    System.out.println("data: " + schedules.get(i).getDate());
+                    e.put("start time", schedules.get(i).getStartTime());
+                    e.put("end time", schedules.get(i).getEndTime());
+                    e.put("timeslot", schedules.get(i).getTimeslot());
+                    e.put("channel", schedules.get(i).getChannel().getName());
+                    e.put("program", schedules.get(i).getProgram().getName());
+                    if(schedules.get(i).getProgram().isSerie()){
+                       e.put("epSeason", schedules.get(i).getEpisode().getSeasonNumber());
+                       e.put("epNumber", schedules.get(i).getEpisode().getNumber()); 
+                       e.put("epName", schedules.get(i).getEpisode().getName()); 
+                    }
+                    URI uri = uriinfo.getBaseUriBuilder()
+                            .path(ProgramsResource.class)
+                            .path(ProgramsResource.class, "getItem")
+                            //.path(getClass(), "getItem")
+                            .build(schedules.get(i).getProgram().getKey());
+                    e.put("url", uri.toString());
+                    l.add(e);
+                }
+                
+            } catch (ServletException ex) {
+                Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DataException ex) {
+            Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        if (genre == null) {
-            genre = "";
-            cont++;
-        }
-
-        if (channel == null) {
-            channel = "";
-            cont++;
-        }
-
-        if (min == null) {
-            min = "00:00";
-            cont++;
-        }
-
-        if (max == null) {
-            max = "23:59";
-            cont++;
-        }
-
-        if (date1 == null) {
-            LocalDate d = LocalDate.now().minusMonths(1);
-            String d1 = d.toString();
-            date1 = d1;
-            cont++;
-        }
-
-        if (date2 == null) {
-            LocalDate d = LocalDate.now().plusDays(3);
-            String d2 = d.toString();
-            date2 = d2;
-            cont++;
-        }
-
-        if (from == null) {
-            from = 1;
-        }
-        if (to == null) {
-            to = 7; //per esempio
-        }
-        if (from > to) { //per sicurezza
-            int swap = from;
-            from = to;
-            to = swap;
-        }
-
-        if (cont == 7) {
-            throw new RESTWebApplicationException(400, "Non è stato inserito alcun filtro per la ricerca");
-        }
-
-        List<Map<String, Object>> l = new ArrayList();
-        for (int i = from; i <= to; ++i) {
-            Map<String, Object> e = new HashMap<>();
-            e.put("id", i);
-            e.put("date", date1);
-            e.put("start time", LocalTime.now());
-            e.put("end time", "18:30");
-            e.put("timeslot", "pomeriggio");
-            e.put("channel", "RAI 1");
-            e.put("program", "TG1");
-
-            //AGGIUNGERE IF PER SERIE TV
-            URI uri = uriinfo.getBaseUriBuilder()
-                    .path(ProgramsResource.class)
-                    .path(ProgramsResource.class, "getItem")
-                    //.path(getClass(), "getItem")
-                    .build(1);
-            e.put("url", uri.toString());
-            l.add(e);
-        }
-
         return l;
     }
 

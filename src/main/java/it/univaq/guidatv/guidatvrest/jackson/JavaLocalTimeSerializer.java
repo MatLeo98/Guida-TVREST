@@ -22,7 +22,7 @@ public class JavaLocalTimeSerializer extends JsonSerializer<LocalTime> {
     @Override
     public void serialize(LocalTime time, JsonGenerator jsonGenerator,
                           SerializerProvider serializerProvider) throws IOException {
-        String timeFormatted = LocalTime.now().format(dtf).toString();
+        String timeFormatted = time.format(dtf).toString();
         jsonGenerator.writeString(timeFormatted);
     }
 }

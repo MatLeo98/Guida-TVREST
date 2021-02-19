@@ -8,6 +8,7 @@ import it.univaq.guidatv.data.model.Channel;
 import it.univaq.guidatv.data.model.Episode;
 import it.univaq.guidatv.data.model.Image;
 import it.univaq.guidatv.data.model.Program;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import javax.ws.rs.ext.ContextResolver;
@@ -50,6 +51,7 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
         customSerializer.addDeserializer(Channel.class, new ChannelDeserializer());
         customSerializer.addSerializer(LocalTime.class, new JavaLocalTimeSerializer());
         customSerializer.addDeserializer(LocalTime.class, new JavaLocalTimeDeserializer());
+        customSerializer.addSerializer(LocalDate.class, new JavaLocalDateSerializer());
         //
         /*customSerializer.addSerializer(Fattura.class, new FatturaSerializer());
         customSerializer.addDeserializer(Fattura.class, new FatturaDeserializer());*/
