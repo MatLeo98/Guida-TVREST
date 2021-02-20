@@ -158,7 +158,8 @@ public class ProgramDAO_MySQL extends DAO implements ProgramDAO{
     }
 
     @Override
-    public void storeProgram(Program program) throws DataException {
+    public Program storeProgram(Program program) throws DataException {
+        Program p = null;
         try{
         if (program.getKey() != null && program.getKey() > 0) {//update
             System.out.println("Numero stagioni store:" + program.getSeasonsNumber());
@@ -193,7 +194,6 @@ public class ProgramDAO_MySQL extends DAO implements ProgramDAO{
                  insertProgram.setBoolean(5, program.isSerie());
                  insertProgram.setInt(6, program.getSeasonsNumber());
                  insertProgram.setInt(7, program.getImage().getKey());
-                 Program p = null;
                  if (insertProgram.executeUpdate() == 1) {
 
                          try (ResultSet keys = insertProgram.getGeneratedKeys()) {
@@ -218,7 +218,7 @@ public class ProgramDAO_MySQL extends DAO implements ProgramDAO{
              } catch (SQLException ex) {
                  Logger.getLogger(ProgramDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
              }
-        
+       return p; 
     }
 
     @Override

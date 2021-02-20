@@ -11,6 +11,7 @@ import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import it.univaq.guidatv.data.model.Channel;
 import it.univaq.guidatv.data.model.Image;
 import java.time.LocalDate;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,14 +29,8 @@ public class ChannelResource {
 
     private final Channel c;
 
-    ChannelResource(Integer id) {
-        c = new ChannelImpl();
-        c.setKey(id);
-        c.setName("RAI 1");
-
-        Image i = new ImageImpl();
-        i.setLink("https://upload.wikimedia.org/wikipedia/commons/f/fa/Rai_1_-_Logo_2016.svg");
-        c.setImage(i);
+    ChannelResource(Channel c) {
+        this.c = c;
     }
 
     @GET
@@ -60,11 +55,11 @@ public class ChannelResource {
     @GET
     @Produces("application/json")
     @Path("schedule") //RICHIAMA API schedule/dataoggi/canale
-    public Response getSchedule(@Context UriInfo uriinfo,@Context ResourceContext resourceContext) {
+    public Response getSchedule(@Context HttpServletRequest request, @Context UriInfo uriinfo,@Context ResourceContext resourceContext) {
         
         String date = String.valueOf(LocalDate.now());
         ScheduleResource s = resourceContext.getResource(ScheduleResource.class);
-        Response r = s.getScheduleByDateAndChannel(uriinfo, date, c.getKey());
+        Response r = s.getScheduleByDateAndChannel(request, uriinfo, date, c.getKey());
 
         return r;
     }
@@ -72,10 +67,10 @@ public class ChannelResource {
     @GET
     @Produces("application/json")
     @Path("schedule/{date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]}") //RICHIAMA API schedule/data/canale
-    public Response getScheduleByDate(@Context UriInfo uriinfo, @Context ResourceContext resourceContext, @PathParam("date") String date) {
+    public Response getScheduleByDate(@Context HttpServletRequest request,@Context UriInfo uriinfo, @Context ResourceContext resourceContext, @PathParam("date") String date) {
 
         ScheduleResource s = resourceContext.getResource(ScheduleResource.class);
-        Response r = s.getScheduleByDateAndChannel(uriinfo, date, c.getKey());
+        Response r = s.getScheduleByDateAndChannel(request, uriinfo, date, c.getKey());
 
         return r;
     }

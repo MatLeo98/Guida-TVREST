@@ -20,7 +20,7 @@ class EpisodesResource {
     private final Program p;
 
     EpisodesResource(Program p) {
-        this.p = p;
+        this.p = p;     
     }
 
     @GET

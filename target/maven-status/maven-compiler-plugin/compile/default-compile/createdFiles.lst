@@ -23,6 +23,7 @@ it\univaq\guidatv\data\model\FavouriteChannel.class
 it\univaq\guidatv\guidatvrest\resources\ProgramsResource.class
 it\univaq\guidatv\data\model\Image.class
 it\univaq\guidatv\data\impl\ScheduleImpl.class
+it\univaq\guidatv\guidatvrest\jackson\JavaLocalDateDeserializer.class
 it\univaq\framework\data\proxy\SavedSearchesProxy.class
 it\univaq\guidatv\data\dao\ImageDAO_MySQL.class
 it\univaq\guidatv\data\model\User.class
@@ -36,6 +37,7 @@ it\univaq\guidatv\guidatvrest\jackson\JavaLocalTimeDeserializer.class
 it\univaq\framework\data\proxy\ProgramProxy.class
 it\univaq\guidatv\guidatvrest\jackson\EpisodeSerializer.class
 it\univaq\framework\data\OptimisticLockException.class
+it\univaq\guidatv\guidatvrest\jackson\ScheduleSerializer.class
 it\univaq\guidatv\data\dao\ChannelDAO.class
 it\univaq\guidatv\data\impl\EpisodeImpl.class
 it\univaq\framework\data\DataItemProxy.class
@@ -50,8 +52,10 @@ it\univaq\guidatv\data\model\FavouriteProgram.class
 it\univaq\guidatv\guidatvrest\RESTWebApplicationException.class
 it\univaq\guidatv\data\dao\FavouriteProgramDAO_MySQL.class
 it\univaq\guidatv\data\dao\ImageDAO.class
+it\univaq\guidatv\guidatvrest\jackson\ScheduleDeserializer.class
 it\univaq\guidatv\data\dao\ProgramDAO_MySQL.class
 it\univaq\guidatv\guidatvrest\resources\ProgramResource.class
+it\univaq\guidatv\guidatvrest\resources\BaseResource.class
 it\univaq\framework\data\proxy\ImageProxy.class
 it\univaq\guidatv\guidatvrest\jackson\ChannelSerializer.class
 it\univaq\guidatv\guidatvrest\resources\ChannelsResource.class
@@ -59,6 +63,7 @@ it\univaq\framework\data\DataItemImpl.class
 it\univaq\guidatv\data\dao\ProgramDAO.class
 it\univaq\guidatv\data\impl\ChannelImpl.class
 it\univaq\guidatv\data\model\Channel.class
+it\univaq\guidatv\guidatvrest\jackson\JavaLocalDateSerializer.class
 it\univaq\guidatv\data\dao\EpisodeDAO_MySQL.class
 it\univaq\guidatv\data\dao\UserDAO.class
 it\univaq\guidatv\data\dao\SavedSearchesDAO_MySQL.class

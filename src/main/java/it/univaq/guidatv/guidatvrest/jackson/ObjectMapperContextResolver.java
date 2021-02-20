@@ -1,4 +1,3 @@
-
 package it.univaq.guidatv.guidatvrest.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +7,7 @@ import it.univaq.guidatv.data.model.Channel;
 import it.univaq.guidatv.data.model.Episode;
 import it.univaq.guidatv.data.model.Image;
 import it.univaq.guidatv.data.model.Program;
+import it.univaq.guidatv.data.model.Schedule;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -52,6 +52,9 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
         customSerializer.addSerializer(LocalTime.class, new JavaLocalTimeSerializer());
         customSerializer.addDeserializer(LocalTime.class, new JavaLocalTimeDeserializer());
         customSerializer.addSerializer(LocalDate.class, new JavaLocalDateSerializer());
+        customSerializer.addDeserializer(LocalDate.class, new JavaLocalDateDeserializer());
+        customSerializer.addSerializer(Schedule.class, new ScheduleSerializer());
+        customSerializer.addDeserializer(Schedule.class, new ScheduleDeserializer());
         //
         /*customSerializer.addSerializer(Fattura.class, new FatturaSerializer());
         customSerializer.addDeserializer(Fattura.class, new FatturaDeserializer());*/

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package it.univaq.guidatv.guidatvrest.resources;
+
+import it.univaq.framework.data.DataException;
 import it.univaq.guidatv.data.dao.GuidatvDataLayer;
 import it.univaq.guidatv.data.model.Channel;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -28,10 +31,9 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author Matteo
  */
-
 @Path("channels")
-public class ChannelsResource extends BaseResource{
-    
+public class ChannelsResource extends BaseResource {
+
     @GET
     @Produces("application/json")
     public List<Map<String, Object>> getCollection(
@@ -41,7 +43,7 @@ public class ChannelsResource extends BaseResource{
             @QueryParam("to") Integer to) {
 
         if (from == null) {
-            from = 1;
+            from = 0;
         }
         if (to == null) {
             to = 30; //per esempio
@@ -54,23 +56,23 @@ public class ChannelsResource extends BaseResource{
 
         List<Map<String, Object>> l = new ArrayList();
         try {
-           DBConnection(request);
-           List<Channel> channels = ((GuidatvDataLayer)request.getAttribute("datalayer")).getChannelDAO().getChannels();
-        
-        for (int i = from; i <= to; ++i) {
-            Map<String, Object> e = new HashMap<>();
-            e.put("number", channels.get(i).getKey());
-            e.put("name", channels.get(i).getName());
-            String date = String.valueOf(LocalDate.now());
-            URI uri;
-            uri = uriinfo.getBaseUriBuilder()
-                    .path(ScheduleResource.class)
-                    .path(date)
-                    .path(String.valueOf(channels.get(i).getKey()))
-                    .build();
-            e.put("palinsesto", uri.toString());
-            l.add(e);
-        }
+            DBConnection(request);
+            List<Channel> channels = ((GuidatvDataLayer) request.getAttribute("datalayer")).getChannelDAO().getChannels();
+
+            for (int i = from; i < channels.size(); ++i) {
+                Map<String, Object> e = new HashMap<>();
+                e.put("number", channels.get(i).getKey());
+                e.put("name", channels.get(i).getName());
+                String date = String.valueOf(LocalDate.now());
+                URI uri;
+                uri = uriinfo.getBaseUriBuilder()
+                        .path(ScheduleResource.class)
+                        .path(date)
+                        .path(String.valueOf(channels.get(i).getKey()))
+                        .build();
+                e.put("palinsesto", uri.toString());
+                l.add(e);
+            }
         } catch (Exception ex) {
             Logger.getLogger(ChannelsResource.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,12 +82,23 @@ public class ChannelsResource extends BaseResource{
 
     @Path("{id: [0-9]+}")
     public ChannelResource getItem(
+            @Context HttpServletRequest request,
             @PathParam("id") Integer id
-            ) {
-        if(id>0){
-            return new ChannelResource(id);
-        }else{
-            throw new RESTWebApplicationException(404, "Fattura non trovata"); 
+    ) {
+        ChannelResource cr = null;
+        try {
+            if (id > 0) {
+                DBConnection(request);
+                Channel c = ((GuidatvDataLayer) request.getAttribute("datalayer")).getChannelDAO().getChannel(id);
+                return new ChannelResource(c);
+            } else {
+                throw new RESTWebApplicationException(404, "Canale non trovato");
+            }
+        } catch (ServletException ex) {
+            Logger.getLogger(ChannelsResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataException ex) {
+            Logger.getLogger(ChannelsResource.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return cr;
     }
 }

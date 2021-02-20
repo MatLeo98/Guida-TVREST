@@ -7,6 +7,7 @@ package it.univaq.guidatv.guidatvrest.resources;
 
 import it.univaq.framework.data.DataException;
 import it.univaq.guidatv.data.dao.GuidatvDataLayer;
+import it.univaq.guidatv.data.model.Channel;
 import it.univaq.guidatv.data.model.Schedule;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import java.net.URI;
@@ -34,7 +35,7 @@ import javax.ws.rs.core.UriInfo;
  * @author giorg
  */
 @Path("schedule")
-public class ScheduleResource extends BaseResource{
+public class ScheduleResource extends BaseResource {
 
     @GET
     @Produces("application/json")
@@ -51,94 +52,92 @@ public class ScheduleResource extends BaseResource{
             @QueryParam("from") Integer from,
             @QueryParam("to") Integer to) {
 
-        
-            int cont = 0;
-            
-            if (title == null) {
-                title = "";
-                cont++;
-            }
-            
-            if (genre == null) {
-                genre = "";
-                cont++;
-            }
-            
-            if (channel == null) {
-                channel = "";
-                cont++;
-            }
-            
-            if (min == null) {
-                min = "00:00";
-                cont++;
-            }
-            
-            if (max == null) {
-                max = "23:59";
-                cont++;
-            }
-            
-            if (date1 == null) {
-                LocalDate d = LocalDate.now().minusMonths(1);
-                String d1 = d.toString();
-                date1 = d1;
-                cont++;
-            }
-            
-            if (date2 == null) {
-                LocalDate d = LocalDate.now().plusDays(3);
-                String d2 = d.toString();
-                date2 = d2;
-                cont++;
-            }
-            
-            if (from == null) {
-                from = 0;
-            }
-            if (to == null) {
-                to = 7; //per esempio
-            }
-            if (from > to) { //per sicurezza
-                int swap = from;
-                from = to;
-                to = swap;
-            }
-            
-            if (cont == 7) {
-                throw new RESTWebApplicationException(400, "Non è stato inserito alcun filtro per la ricerca");
-            }
-            
-            List<Map<String, Object>> l = new ArrayList();
-            try {
-                DBConnection(request);
-                List<Schedule> schedules = ((GuidatvDataLayer)request.getAttribute("datalayer")).getScheduleDAO().search(title, genre, channel, min, max, date1, date2);
-                for (int i = from; i < schedules.size(); ++i) {
-                    Map<String, Object> e = new HashMap<>();
-                    e.put("date", schedules.get(i).getDate());
-                    System.out.println("data: " + schedules.get(i).getDate());
-                    e.put("start time", schedules.get(i).getStartTime());
-                    e.put("end time", schedules.get(i).getEndTime());
-                    e.put("timeslot", schedules.get(i).getTimeslot());
-                    e.put("channel", schedules.get(i).getChannel().getName());
-                    e.put("program", schedules.get(i).getProgram().getName());
-                    if(schedules.get(i).getProgram().isSerie()){
-                       e.put("epSeason", schedules.get(i).getEpisode().getSeasonNumber());
-                       e.put("epNumber", schedules.get(i).getEpisode().getNumber()); 
-                       e.put("epName", schedules.get(i).getEpisode().getName()); 
-                    }
-                    URI uri = uriinfo.getBaseUriBuilder()
-                            .path(ProgramsResource.class)
-                            .path(ProgramsResource.class, "getItem")
-                            //.path(getClass(), "getItem")
-                            .build(schedules.get(i).getProgram().getKey());
-                    e.put("url", uri.toString());
-                    l.add(e);
+        int cont = 0;
+
+        if (title == null) {
+            title = "";
+            cont++;
+        }
+
+        if (genre == null) {
+            genre = "";
+            cont++;
+        }
+
+        if (channel == null) {
+            channel = "";
+            cont++;
+        }
+
+        if (min == null) {
+            min = "00:00";
+            cont++;
+        }
+
+        if (max == null) {
+            max = "23:59";
+            cont++;
+        }
+
+        if (date1 == null) {
+            LocalDate d = LocalDate.now().minusMonths(1);
+            String d1 = d.toString();
+            date1 = d1;
+            cont++;
+        }
+
+        if (date2 == null) {
+            LocalDate d = LocalDate.now().plusDays(3);
+            String d2 = d.toString();
+            date2 = d2;
+            cont++;
+        }
+
+        if (from == null) {
+            from = 0;
+        }
+        if (to == null) {
+            to = 7; //per esempio
+        }
+        if (from > to) { //per sicurezza
+            int swap = from;
+            from = to;
+            to = swap;
+        }
+
+        if (cont == 7) {
+            throw new RESTWebApplicationException(400, "Non è stato inserito alcun filtro per la ricerca");
+        }
+
+        List<Map<String, Object>> l = new ArrayList();
+        try {
+            DBConnection(request);
+            List<Schedule> schedules = ((GuidatvDataLayer) request.getAttribute("datalayer")).getScheduleDAO().search(title, genre, channel, min, max, date1, date2);
+            for (int i = from; i < schedules.size(); ++i) {
+                Map<String, Object> e = new HashMap<>();
+                e.put("date", schedules.get(i).getDate());
+                e.put("start time", schedules.get(i).getStartTime());
+                e.put("end time", schedules.get(i).getEndTime());
+                e.put("timeslot", schedules.get(i).getTimeslot());
+                e.put("channel", schedules.get(i).getChannel().getName());
+                e.put("program", schedules.get(i).getProgram().getName());
+                if (schedules.get(i).getProgram().isSerie()) {
+                    e.put("epSeason", schedules.get(i).getEpisode().getSeasonNumber());
+                    e.put("epNumber", schedules.get(i).getEpisode().getNumber());
+                    e.put("epName", schedules.get(i).getEpisode().getName());
                 }
-                
-            } catch (ServletException ex) {
-                Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DataException ex) {
+                URI uri = uriinfo.getBaseUriBuilder()
+                        .path(ProgramsResource.class)
+                        .path(ProgramsResource.class, "getItem")
+                        //.path(getClass(), "getItem")
+                        .build(schedules.get(i).getProgram().getKey());
+                e.put("url", uri.toString());
+                l.add(e);
+            }
+
+        } catch (ServletException ex) {
+            Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataException ex) {
             Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return l;
@@ -146,52 +145,79 @@ public class ScheduleResource extends BaseResource{
 
     @GET
     @Produces("application/json")
-    @Path("{date: [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]}")
+    @Path("{date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]}")
     public Response getScheduleByDate(
+            @Context HttpServletRequest request,
             @Context UriInfo uriinfo,
             @PathParam("date") String date) {
 
-        if (date != null && date != ""){
-            List<String> l = new ArrayList();
-            for (int i = 1; i <= 3; ++i) {
-                URI uri = uriinfo.getBaseUriBuilder()
-                        .path(ProgramsResource.class)
-                        .path(ProgramsResource.class, "getItem")
-                        .build(i);
-                l.add(uri.toString());
-            }
+        try {
+            List<Map<String, Object>> l = new ArrayList();
 
-            return Response.ok(l).build();
-        }else{
-             throw new RESTWebApplicationException(404, "Not Found");
+            if (date != null && date != "") {
+                DBConnection(request);
+                List<Schedule> s = ((GuidatvDataLayer) request.getAttribute("datalayer")).getScheduleDAO().getScheduleByDate(LocalDate.parse(date));
+                for (int i = 0; i < s.size(); ++i) {
+                    Map<String, Object> e = new HashMap<>();
+                    e.put("schedule", s.get(i));
+                    URI uri = uriinfo.getBaseUriBuilder()
+                            .path(ProgramsResource.class)
+                            .path(ProgramsResource.class, "getItem")
+                            .build(s.get(i).getProgram().getKey());
+                    e.put("URL", uri.toString());
+                    l.add(e);
+                }
+
+                return Response.ok(l).build();
+            } else {
+                throw new RESTWebApplicationException(404, "Not Found");
+            }
+        } catch (ServletException ex) {
+            Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataException ex) {
+            Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return Response.serverError().build();
     }
 
     @GET
     @Produces("application/json")
     @Path("{date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]}/{channel: [0-9]+}")
     public Response getScheduleByDateAndChannel(
+            @Context HttpServletRequest request,
             @Context UriInfo uriinfo,
             @PathParam("date") String date,
             @PathParam("channel") Integer channelId) {
+        try {
+            List<Map<String, Object>> l = new ArrayList();
 
-        if (date != null && date != "" && channelId != null && channelId > 0) {
+            if (date != null && date != "" && channelId != null && channelId > 0) {
+                DBConnection(request);
+                Channel channel = ((GuidatvDataLayer) request.getAttribute("datalayer")).getChannelDAO().getChannel(channelId);
+                List<Schedule> s = ((GuidatvDataLayer) request.getAttribute("datalayer")).getScheduleDAO().getScheduleByChannel(channel, LocalDate.parse(date));
+                
+                for (int i = 0; i < s.size(); ++i) {
+                    Map<String, Object> e = new HashMap<>();
+                    e.put("schedule", s.get(i));
+                    URI uri = uriinfo.getBaseUriBuilder()
+                            .path(ProgramsResource.class)
+                            .path(ProgramsResource.class, "getItem")
+                            .build(s.get(i).getProgram().getKey());
+                    e.put("URL", uri.toString());
+                    l.add(e);
+                }
 
-            //PALINSESTI BY CANALE E DATA
-            List<String> l = new ArrayList();
-            for (int i = 1; i <= 3; ++i) {
-                URI uri = uriinfo.getBaseUriBuilder()
-                        .path(ProgramsResource.class)
-                        .path(ProgramsResource.class, "getItem")
-                        .build(i);
-                l.add(uri.toString());
+                return Response.ok(l).build();
+
+            } else {
+                throw new RESTWebApplicationException(404, "404 - Not Found");
             }
-
-            return Response.ok(l).build();
-
-        } else {
-            throw new RESTWebApplicationException(404, "404 - Not Found");
+        } catch (ServletException ex) {
+            Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataException ex) {
+            Logger.getLogger(ScheduleResource.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return Response.serverError().build();
     }
 
 }
