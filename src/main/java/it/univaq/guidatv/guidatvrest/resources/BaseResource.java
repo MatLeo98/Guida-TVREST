@@ -11,7 +11,7 @@ import javax.sql.DataSource;
  */
 public class BaseResource {
     
-    public void DBConnection(HttpServletRequest request) throws ServletException{
+    protected void DBConnection(HttpServletRequest request) throws ServletException{
          try  {
             InitialContext ctx = new InitialContext();
             DataSource ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/guidatv");

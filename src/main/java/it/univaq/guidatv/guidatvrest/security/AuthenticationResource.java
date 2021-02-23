@@ -2,6 +2,9 @@ package it.univaq.guidatv.guidatvrest.security;
 
 import it.univaq.framework.data.DataException;
 import it.univaq.guidatv.data.dao.GuidatvDataLayer;
+import it.univaq.guidatv.data.impl.ChannelImpl;
+import it.univaq.guidatv.data.impl.ImageImpl;
+import it.univaq.guidatv.data.impl.ProgramImpl;
 import it.univaq.guidatv.guidatvrest.RESTWebApplicationException;
 import it.univaq.guidatv.data.impl.ProgramImpl.Genre;
 import it.univaq.guidatv.data.model.Channel;
@@ -11,14 +14,17 @@ import it.univaq.guidatv.data.model.User;
 import it.univaq.guidatv.guidatvrest.resources.BaseResource;
 import it.univaq.guidatv.guidatvrest.resources.ProgramsResource;
 import it.univaq.guidatv.guidatvrest.resources.ScheduleResource;
+import java.io.Console;
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -26,6 +32,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
@@ -53,7 +60,8 @@ public class AuthenticationResource extends BaseResource {
                 /* per esempio */
                 String authToken = issueToken(uriinfo, email);
 
-                return Response.ok(authToken).header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
+                //return Response.ok(authToken).build();
+                return Response.ok().cookie(new NewCookie("token", authToken)).build();
 
             } else {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -67,15 +75,21 @@ public class AuthenticationResource extends BaseResource {
     @DELETE
     @Path("{sid:[a-zA-Z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+}")
     public Response doLogout(@Context HttpServletRequest request,
-            @PathParam("sid") String sid) {
+            @PathParam("sid") String sid,
+            @CookieParam("token") Cookie cookie) {
         try {
             //estraiamo i dati inseriti dal nostro LoggedFilter...
             String token = (String) request.getAttribute("token");
-            if (token != null && sid.equals(token)) {              
+            if (token != null && sid.equals(token)) {
+                if (cookie != null) {
+                    NewCookie newCookie = new NewCookie(cookie, "delete cookie", 0, false);
                     return Response
                             .noContent()
-                            .header(HttpHeaders.AUTHORIZATION, "Sessione chiusa")
+                            .cookie(newCookie)
                             .build();
+                }
+                //revokeToken(token);
+
             }
             return Response.noContent().build();
         } catch (Exception e) {
@@ -294,7 +308,17 @@ public class AuthenticationResource extends BaseResource {
             name = email.substring(0, index);
         }
         String token = name + "-" + UUID.randomUUID().toString();
-        
+        /* per esempio */
+
+//        JWT        
+//        Key key = JWTHelpers.getInstance().getJwtKey();
+//        String token = Jwts.builder()
+//                .setSubject(username)
+//                .setIssuer(context.getAbsolutePath().toString())
+//                .setIssuedAt(new Date())
+//                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
+//                .signWith(key)
+//                .compact();
         return token;
     }
 
