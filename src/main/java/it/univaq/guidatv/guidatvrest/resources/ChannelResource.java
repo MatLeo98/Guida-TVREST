@@ -51,6 +51,10 @@ public class ChannelResource {
         
         String date = String.valueOf(LocalDate.now());
         ScheduleResource s = resourceContext.getResource(ScheduleResource.class);
+        System.out.println(request);
+        System.out.println(uriinfo);
+        System.out.println(date);
+        System.out.println(c.getKey());
         Response r = s.getScheduleByDateAndChannel(request, uriinfo, date, c.getKey());
 
         return r;

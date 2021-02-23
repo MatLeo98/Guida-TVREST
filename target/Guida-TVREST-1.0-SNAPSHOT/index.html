@@ -1,10 +1,49 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<head>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#findChannel').click(function () {
+                var resultElement = $('#canali'); //div dove iniettare html
+               
+                resultElement.html('');
+
+                var requestData = $('#channel').val(); //getto quello che scrivo
+                $.ajax({
+                    url: 'http://localhost:8080/Guida-TVREST/rest/channels/'+requestData+'/schedule', //URL API 
+                    method: 'get',
+                    //data: { channel: requestData },
+                    dataType: 'json',
+                    success: function (response) {
+                         
+                            resultElement.html('Palinsesto del giorno '+ response[0].schedule.date +" - "+ response[0].schedule.channel);  
+                            response.forEach(function (element, i){
+                                
+                                var div = `<div class="singolo_canale">${element.schedule.program} in onda dalle ${element.schedule.from}</div>`; 
+                                $("#canali").append(div);
+                                
+                            });
+                        
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body style="font-family:Arial">
+    
+        
+     Channel
+     <input type="text" id="channel" />
+        
+    
+    <input type="button" id="findChannel" value="FIND">
+    <br /><br />
+    <div id="canali">
+       
+    </div>
+</body>
 </html>
