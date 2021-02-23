@@ -88,7 +88,7 @@ public class AuthenticationResource extends BaseResource {
                             .cookie(newCookie)
                             .build();
                 }
-                //revokeToken(token);
+                revokeToken(token);
 
             }
             return Response.noContent().build();
