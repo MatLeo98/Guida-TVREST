@@ -26,11 +26,7 @@ public class LoggedFilter implements ContainerRequestFilter {
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring("Bearer".length()).trim();
-        } else if (requestContext.getCookies().containsKey("token")) {
-            token = requestContext.getCookies().get("token").getValue();
-        } else if (requestContext.getUriInfo().getQueryParameters().containsKey("token")) {
-            token = requestContext.getUriInfo().getQueryParameters().getFirst("token");
-        }
+        } 
         if (token != null && !token.isEmpty()) {
             try {
                 //validiamo il token

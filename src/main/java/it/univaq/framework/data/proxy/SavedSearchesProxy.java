@@ -12,8 +12,6 @@ import it.univaq.guidatv.data.dao.UserDAO;
 import it.univaq.guidatv.data.impl.ProgramImpl.Genre;
 import it.univaq.guidatv.data.impl.SavedSearchesImpl;
 import it.univaq.guidatv.data.model.User;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.logging.Level;

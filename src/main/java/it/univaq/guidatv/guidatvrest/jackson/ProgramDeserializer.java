@@ -13,7 +13,6 @@ import it.univaq.guidatv.data.model.Image;
 import it.univaq.guidatv.data.model.Program;
 import it.univaq.guidatv.data.impl.ProgramImpl.Genre;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ProgramDeserializer extends JsonDeserializer<Program> {

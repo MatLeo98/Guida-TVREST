@@ -9,9 +9,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import it.univaq.guidatv.data.impl.ImageImpl;
 import it.univaq.guidatv.data.model.Image;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class ImageDeserializer extends JsonDeserializer<Image> {
 
