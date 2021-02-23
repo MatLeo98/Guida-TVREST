@@ -76,9 +76,6 @@ public class AuthenticationResource extends BaseResource {
                             .noContent()
                             .header(HttpHeaders.AUTHORIZATION, "Sessione chiusa")
                             .build();
-                }
-                revokeToken(token);
-
             }
             return Response.noContent().build();
         } catch (Exception e) {
